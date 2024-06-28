@@ -73,7 +73,6 @@ def respostaDinamica (lista):
 
     for i in range (1, qtdItens+1): 
         for j in range (1, W+1):
-            print(f"j: {j}")
             if lista[i][1] > j:
                 listaResp [i][j] = listaResp[i-1][j]
             else:
@@ -133,6 +132,3 @@ lista_3_5000, beneficio_3_5000 = leArquivo(3, 5000)
 listaResp_3_5000 = respostaDinamica (lista_3_5000)
 lista_3_10000, beneficio_3_10000 = leArquivo(3, 10000)
 listaResp_3_10000 = respostaDinamica (lista_3_10000)
-
-"""
-
