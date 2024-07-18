@@ -28,6 +28,23 @@ def gulosoMenorPeso (listaOriginal):
 
     return listaResult, beneficio
 
+
+
+def gulosoMenorPesoMelhorado (qtdItens, capacidadeMax, pesosOrdenados, beneficios):
+    capacidadeRestante = capacidadeMax
+    beneficio = 0
+    i=0
+    for i in range (qtdItens):
+        beneficio = beneficio + beneficios[pesosOrdenados[i][1]]
+        capacidadeRestante = capacidadeRestante - pesosOrdenados[i][0]
+        if capacidadeRestante < 0:
+            beneficio = beneficio - beneficios[pesosOrdenados[i][1]]
+            return beneficio
+        if capacidadeRestante == 0:
+            return beneficio
+    
+    return beneficio
+
 def gulosoBeneficioCusto (listaOriginal):
     lista = copy.deepcopy(listaOriginal)
     qtdItens = lista[0][0] #Constante que indica o número de itens na mochila
@@ -55,3 +72,19 @@ def gulosoBeneficioCusto (listaOriginal):
             limite = 1
             
     return listaResult, beneficio
+
+def gulosoBeneficioCustoMelhorado (qtdItens, capacidadeMax, listaOrdenada):
+    capacidadeRestante = capacidadeMax
+    beneficio = 0
+    i = qtdItens - 1
+    while i >= 0:
+        beneficio = beneficio + listaOrdenada[i][2]
+        capacidadeRestante = capacidadeRestante - listaOrdenada[i][1]
+        if capacidadeRestante < 0:
+            beneficio = beneficio - listaOrdenada[i][2]
+            return beneficio
+        if capacidadeRestante == 0:
+            return beneficio
+        i=i-1
+
+    return beneficio

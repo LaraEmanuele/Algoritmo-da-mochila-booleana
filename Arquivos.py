@@ -2,6 +2,7 @@ import os
 from timeit import timeit
 from SolucaoDinamica import respostaDinamica
 import SolucaoGulosa as sg
+import PreparoLista as pl
 
 
 """
@@ -47,17 +48,25 @@ def leArquivo(x, y):
 def escritaResultados (x, y):
     lista = leArquivo(x, y)
     diretorio_atual = os.getcwd()
+    qtdItens, capacidadeMax, pesos, beneficios = pl.divisaoLista(lista)
+    
     with  open(os.path.join(diretorio_atual, "Resultados", f"Tipo{x}", f"Dinamica"), "a") as arq:
         beneficio = respostaDinamica (lista)
         tempo = timeit(f'respostaDinamica ({lista})', number=100,globals=globals())
         arq.write(f"{y} , {str(beneficio[-1][-1])}, {str (tempo)}\n")
+    
 
     with  open(os.path.join(diretorio_atual, "Resultados", f"Tipo{x}", f"Gulosa1"), "a") as arq:
-        lista1, beneficio = sg.gulosoMenorPeso (lista)
-        tempo = timeit(f'sg.gulosoMenorPeso ({lista})', number=10,globals=globals())
+        pesosOrdenados = pl.heapSort (pesos)
+        beneficio = sg.gulosoMenorPesoMelhorado (qtdItens, capacidadeMax, pesosOrdenados, beneficios)
+        tempo = timeit(f'sg.gulosoMenorPesoMelhorado ({qtdItens}, {capacidadeMax}, {pesosOrdenados}, {beneficios})', number=100,globals=globals())
         arq.write(f"{y} , {str(beneficio)}, {str (tempo)}\n")
 
+
     with  open(os.path.join(diretorio_atual, "Resultados", f"Tipo{x}", f"Gulosa2"), "a") as arq:
-        lista1, beneficio = sg.gulosoBeneficioCusto (lista)
-        tempo = timeit(f'sg.gulosoBeneficioCusto ({lista})', number=100,globals=globals())
+        listaGeral = pl.divisaoBeneficioCusto (qtdItens, pesos, beneficios)
+        listaOrdenada = pl.heapSort (listaGeral)
+        beneficio = sg.gulosoBeneficioCustoMelhorado (qtdItens, capacidadeMax, listaOrdenada)
+        tempo = timeit(f'sg.gulosoBeneficioCustoMelhorado ({qtdItens}, {capacidadeMax}, {listaOrdenada})', number=100,globals=globals())
         arq.write(f"{y} , {str(beneficio)}, {str (tempo)}\n")
+    
