@@ -1,4 +1,5 @@
 import copy
+import PreparoLista as pl
 
 def gulosoMenorPeso (listaOriginal):
     lista = copy.deepcopy(listaOriginal)
@@ -30,10 +31,13 @@ def gulosoMenorPeso (listaOriginal):
 
 
 
-def gulosoMenorPesoMelhorado (qtdItens, capacidadeMax, pesosOrdenados, beneficios):
+def gulosoMenorPesoMelhorado (qtdItens, capacidadeMax, beneficios, pesos):
     capacidadeRestante = capacidadeMax
     beneficio = 0
     i=0
+    
+    pesosOrdenados = pl.heapSort (pesos)
+
     for i in range (qtdItens):
         beneficio = beneficio + beneficios[pesosOrdenados[i][1]]
         capacidadeRestante = capacidadeRestante - pesosOrdenados[i][0]
@@ -46,7 +50,7 @@ def gulosoMenorPesoMelhorado (qtdItens, capacidadeMax, pesosOrdenados, beneficio
     return beneficio
 
 def gulosoBeneficioCusto (listaOriginal):
-    lista = copy.deepcopy(listaOriginal)
+    lista = pl.heapSort (listaOriginal)
     qtdItens = lista[0][0] #Constante que indica o número de itens na mochila
     w = lista[0][1]#Constante que indica capacidade máxima na mochila
     aux = [-1, -1, -1]
@@ -73,10 +77,13 @@ def gulosoBeneficioCusto (listaOriginal):
             
     return listaResult, beneficio
 
-def gulosoBeneficioCustoMelhorado (qtdItens, capacidadeMax, listaOrdenada):
+def gulosoBeneficioCustoMelhorado (qtdItens, capacidadeMax, listaGeral):
     capacidadeRestante = capacidadeMax
     beneficio = 0
     i = qtdItens - 1
+
+    listaOrdenada = pl.heapSort (listaGeral)
+
     while i >= 0:
         beneficio = beneficio + listaOrdenada[i][2]
         capacidadeRestante = capacidadeRestante - listaOrdenada[i][1]

@@ -20,3 +20,4 @@ def respostaDinamica (lista):
 
     
     return listaResp
+
